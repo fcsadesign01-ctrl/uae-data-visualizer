@@ -97,11 +97,83 @@ output{font-size:13px;min-width:40px;color:#4b5463}
 .prog{position:fixed;inset:0;z-index:70;background:rgba(5,8,18,.7);display:none;align-items:center;justify-content:center}.prog.open{display:flex}
 .pbox{background:#fff;color:#12151c;border-radius:12px;padding:24px 28px;width:min(420px,90vw)}.pbar{height:8px;border-radius:4px;background:#e3e7ee;overflow:hidden;margin:14px 0 18px}.pbar i{display:block;height:100%;width:0;background:#3b8fa8}
 .ft{margin:30px 0 0;font-size:13px;color:#aab4c4}.ft a{color:#cfe3f5}
+/* ===== Glass theme (Apple-style) ===== */
+:root{color-scheme:light;--base:#e9eef7;--pg:#10131a;--pg2:#445066;--g-bg:rgba(255,255,255,.52);--g-bg2:rgba(255,255,255,.34);--g-br:rgba(255,255,255,.75);--g-line:rgba(30,40,70,.12);--g-sh:0 10px 40px rgba(46,68,120,.16),inset 0 1px 0 rgba(255,255,255,.85);--g-in:rgba(255,255,255,.62);--g-inb:rgba(40,52,84,.16);--g-hov:rgba(255,255,255,.85);--g-sel:rgba(20,40,90,.07);--g-pop:rgba(250,251,255,.9);--acc:#0a84ff;--ink:#10131a;--soft:#4a566b;--mut:#6f7b90;--ease:cubic-bezier(.22,1,.36,1);--b1:#7cc0ff;--b2:#c6a2ff;--b3:#ffb3cf;--b4:#8fe6cf;--tbl:rgba(255,255,255,.55)}
+:root[data-theme=dark]{color-scheme:dark;--base:#06080e;--pg:#eef1f7;--pg2:#aab4c6;--g-bg:rgba(30,36,52,.5);--g-bg2:rgba(255,255,255,.04);--g-br:rgba(255,255,255,.14);--g-line:rgba(255,255,255,.12);--g-sh:0 12px 44px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.14);--g-in:rgba(255,255,255,.08);--g-inb:rgba(255,255,255,.18);--g-hov:rgba(255,255,255,.16);--g-sel:rgba(255,255,255,.09);--g-pop:rgba(28,33,48,.94);--acc:#4aa3ff;--ink:#eef1f7;--soft:#aab4c6;--mut:#8590a5;--b1:#1d56d8;--b2:#7a35e0;--b3:#0e8aa6;--b4:#c2205f;--tbl:rgba(255,255,255,.05)}
+html{background:var(--base)}
+body{color:var(--pg);background:var(--base);background-attachment:scroll;transition:background .5s var(--ease),color .3s}
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(38% 38% at 15% 20%,var(--b1),transparent 70%),radial-gradient(34% 34% at 85% 15%,var(--b2),transparent 70%),radial-gradient(40% 40% at 80% 85%,var(--b3),transparent 70%),radial-gradient(34% 34% at 12% 88%,var(--b4),transparent 70%);opacity:.75;filter:saturate(1.2);animation:drift 28s ease-in-out infinite alternate}
+:root[data-theme=dark] body::before{opacity:.8}
+@keyframes drift{to{transform:translate3d(3%,-2%,0) rotate(6deg) scale(1.08)}}
+@media(prefers-reduced-motion:reduce){body::before{animation:none}*{transition:none!important}}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tbtn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--g-br);background:var(--g-bg);color:var(--pg);font-size:13px;font-weight:700;-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:var(--g-sh);transition:transform .3s var(--ease),background .3s}
+.tbtn:hover{background:var(--g-hov);transform:translateY(-1px)}.tbtn:active{transform:scale(.96)}
+.tbtn svg{width:18px;height:18px}.tbtn .moon{display:none}:root[data-theme=dark] .tbtn .sun{display:none}:root[data-theme=dark] .tbtn .moon{display:block}
+h1,h2.ch{color:var(--pg)}h1{font-weight:700;letter-spacing:.03em}
+.sub,.hint,.ft{color:var(--pg2)}.ft a{color:var(--acc)}
+h2.ch{border-bottom:1px solid var(--g-line)}
+.tt label{color:var(--pg2)}
+.card,.card.r,.work,.xcard,.pbox,details.dd>summary{background:var(--g-bg);border:1px solid var(--g-br);border-radius:24px;box-shadow:var(--g-sh);color:var(--ink);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%)}
+details.dd>summary{border-radius:18px;color:var(--pg);padding:13px 18px;transition:background .3s}
+details.dd>summary:hover{background:var(--g-hov)}
+h2{border-bottom:1px solid var(--g-line);color:var(--ink)}h3{color:var(--soft)}
+.work{overflow:hidden}.set{background:transparent;border-inline-end:1px solid var(--g-line)}
+.prev{background:var(--g-bg2);color:var(--ink)}
+#stage svg{border-radius:16px;box-shadow:0 14px 44px rgba(10,20,50,.3)}
+.drop{background:var(--g-in);border:2px dashed var(--g-inb);color:var(--ink);border-radius:20px;transition:all .35s var(--ease)}
+.drop:hover,.drop.on{background:var(--g-hov);border-color:var(--acc);transform:translateY(-2px)}
+.drop span{color:var(--soft)}
+.btn{background:var(--g-in);border:1px solid var(--g-inb);color:var(--ink);border-radius:14px;transition:all .3s var(--ease)}
+.btn:hover{background:var(--g-hov);transform:translateY(-1px)}.btn small{color:var(--soft)}
+.btn.rec{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.link{color:var(--acc)}
+.fact,.pk{background:var(--g-in);border:1px solid var(--g-line);border-radius:16px}
+.fact i{color:var(--mut)}
+.tw{background:var(--tbl);border:1px solid var(--g-line);border-radius:14px}
+th{background:var(--g-pop);color:var(--ink)}th,td{border-bottom:1px solid var(--g-line);color:var(--ink)}
+.empty{color:var(--soft)}
+.banner{border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.25)}
+.banner.ok{background:linear-gradient(135deg,rgba(31,138,91,.92),rgba(30,160,110,.85))}.banner.fix{background:linear-gradient(135deg,rgba(165,106,0,.92),rgba(200,130,10,.85))}.banner.bad{background:linear-gradient(135deg,rgba(179,38,30,.92),rgba(214,60,50,.85))}
+input,select,textarea{color:var(--ink);color-scheme:inherit}
+input::placeholder{color:var(--mut)}
+select option{color:var(--ink);background:var(--g-pop)}:root[data-theme=dark] select option{background:#1c2130}
+.tt input,.tx,.sw select,.srow select,#notes input{background:var(--g-in);border:1px solid var(--g-inb);color:var(--ink);border-radius:12px;transition:border-color .25s,box-shadow .25s,background .25s}
+.tt input{height:46px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.tt input:focus,.tx:focus,.srow select:focus,.sw select:focus,#notes input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 25%,transparent)}
+.tb{border-radius:20px;color:var(--pg);transition:background .3s var(--ease),transform .3s var(--ease)}
+.tb:hover:not([aria-disabled=true]){background:var(--g-sel);transform:translateY(-2px)}
+.tb[aria-checked=true]{background:var(--g-bg);box-shadow:var(--g-sh);border:1px solid var(--g-br);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.seg{background:var(--g-sel);padding:3px;border-radius:12px;gap:2px}
+.seg button{color:var(--soft);border:0;border-radius:9px;transition:all .25s var(--ease)}
+.seg button[aria-checked=true]{background:var(--g-hov);color:var(--ink);box-shadow:0 1px 6px rgba(0,0,0,.14)}
+.pal{border-radius:8px}.pal[aria-pressed=true]{outline:2px solid var(--acc)}
+#palB{background:var(--g-in);border:1px solid var(--g-inb);color:var(--ink);border-radius:12px}
+#palU{background:var(--g-pop);border:1px solid var(--g-br);border-radius:16px;-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+#palU li{color:var(--ink);border-radius:10px}#palU li:hover,#palU li:focus{background:var(--g-sel)}#palU li[aria-selected=true]{background:color-mix(in srgb,var(--acc) 20%,transparent)}
+.strip{border-radius:6px}
+output{color:var(--soft)}
+.pkc{border:1px solid var(--g-line);border-radius:12px;background:var(--g-in)}.pkc label{border-bottom:1px solid var(--g-line)}.pkc small{color:var(--mut)}.pkn,.fitn,.xn{color:var(--soft)}
+.chip.ok{background:rgba(48,180,100,.18);color:#177a46}:root[data-theme=dark] .chip.ok{color:#7ee2a8}.chip.best{background:#1f8a5b;color:#fff}
+.pl button{background:var(--g-in);color:var(--ink);border:1px solid var(--g-br);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:transform .25s var(--ease),background .25s}
+.pl button:hover{background:var(--g-hov);transform:scale(1.06)}.pl button:active{transform:scale(.94)}
+.pl #pPlay{background:linear-gradient(135deg,#3aa0ff,#0a6be0);color:#fff;border-color:rgba(255,255,255,.35);box-shadow:0 6px 20px rgba(10,107,224,.45)}
+.pl input,.xc input{accent-color:var(--acc)}
+.btnP{background:linear-gradient(135deg,#3aa0ff,#0a6be0);border-radius:999px;box-shadow:0 8px 24px rgba(10,107,224,.4),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .25s var(--ease)}
+.btnP:hover:not(:disabled){transform:translateY(-1px)}.btnP:active{transform:scale(.97)}
+.btnS{background:var(--g-in);border:1px solid var(--g-inb);color:var(--ink);border-radius:999px}
+.xl{color:var(--ink)}
+.prog{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:rgba(5,8,18,.45)}
+.pbar{background:var(--g-sel);border-radius:6px}.pbar i{background:var(--acc)}
+.toast span{background:var(--g-pop);color:var(--ink);border:1px solid var(--g-br);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:var(--g-sh);border-radius:999px}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:var(--g-inb);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.card,.card.r,.work,.xcard,.pbox,details.dd>summary{background:var(--g-pop)}}
 </style>
+<script>(function(){var r=document.documentElement,t=null;try{t=localStorage.getItem('uaeviz-theme');}catch(e){}if(t!=='dark'&&t!=='light')t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';r.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
 <div class="wrap">
-  <h1>UAE Data Visualizer</h1>
+  <div class="top"><h1>UAE Data Visualizer</h1><button class="tbtn" id="themeBtn" type="button" aria-label="Switch to dark mode" title="Light / dark"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span id="themeTx">Light</span></button></div>
   <p class="sub">Beta · Charts, Timeline and export to PNG, SVG and MP4. Your files are processed in your browser and are never uploaded.</p>
   <details class="dd" id="dataD" open><summary id="dataSum">1 · Data</summary>
   <div class="grid">
@@ -150,7 +222,7 @@ output{font-size:13px;min-width:40px;color:#4b5463}
       <button class="btnP" id="exGo" type="button">Download</button>
     </div>
   </section>
-<p class="ft">UAE Data Visualizer · Beta v0.2 · build 2026-11-09 · Federal Competitiveness &amp; Statistics Centre · Flags: flag-icons (MIT) · <a id="fbk" href="#" hidden>Send feedback</a></p>
+<p class="ft">UAE Data Visualizer · Beta v0.3 · build 2026-11-12 · Federal Competitiveness &amp; Statistics Centre · Flags: flag-icons (MIT) · <a id="fbk" href="#" hidden>Send feedback</a></p>
 </div>
 <div class="prog" id="prog" role="alertdialog" aria-modal="true" aria-labelledby="progMsg"><div class="pbox"><div id="progMsg" style="font-weight:700">Creating MP4…</div><div class="pbar"><i id="progBar"></i></div><button class="btnS" id="progCancel" type="button">Cancel</button></div></div>
 <div class="toast" id="toast" role="status"><span></span></div>
@@ -443,7 +515,7 @@ function render(){
     h+='<div class="banner bad"><span aria-hidden="true" style="font-size:22px">✕</span><div><strong>This file can’t be visualized yet</strong><p>'+esc(ST.name)+'</p></div></div>';
     h+='<h3>What we found</h3><ul class="list">'+r.reasons.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';
     h+='<h3>Choose the columns yourself</h3><button class="btn" data-pickopen>Choose columns manually<small>Pick the header row, the label column and the columns to chart</small></button>'+pickerHTML();
-    h+='<h3>Fix it with a template</h3><p style="margin:0;font-size:14px;color:#4b5463">Copy your data into the right format, then upload it again.</p>';
+    h+='<h3>Fix it with a template</h3><p style="margin:0;font-size:14px;color:var(--soft)">Copy your data into the right format, then upload it again.</p>';
     h+='<button class="btn'+(r.timelineHint?'':' rec')+'" data-t="std">Standard template'+(r.timelineHint?'':' · recommended')+'<small>Categories + value columns</small></button>';
     h+='<button class="btn'+(r.timelineHint?' rec':'')+'" data-t="tl">Timeline template'+(r.timelineHint?' · recommended (years detected)':'')+'<small>Items down the rows, years across the columns</small></button>';
     o.innerHTML=h;return;
@@ -921,7 +993,7 @@ function buildUI(){
   $('#set').innerHTML='<h2>Settings</h2>'+
   '<h3>Visual</h3><div class="srow"><span>Style</span>'+seg('style',[['flat','Flat'],['3d','3D']])+'</div><div class="srow"><span>Orientation</span>'+seg('orient',[['landscape','Landscape'],['portrait','Portrait']])+'</div>'+
   '<h3>Animation</h3><div class="srow"><span>Style</span>'+seg('anim',[['standard','Standard'],['timeline','Timeline']])+'</div><div class="srow"><label for="spd">Speed</label><input type="range" id="spd" min="0.5" max="2" step="0.1" value="1"></div>'+
-  '<h3>Graph</h3><div class="srow" id="tvRow" hidden><span>Timeline view</span>'+seg('tlMode',[['bar','Bar race'],['line','Line']])+'</div><div class="srow" id="hlRow" hidden><label for="hl">Highlight item</label><select id="hl"></select></div><div class="srow" id="flRow" hidden><label for="flags">Show flags</label><input type="checkbox" id="flags" checked style="width:18px;height:18px;accent-color:#3a4668"><span id="flN" style="flex:1 1 auto;font-size:13px;color:#4b5463"></span></div><div class="srow" id="mcRow" hidden><label for="mapc">Map color</label><input type="color" class="sw2" id="mapc" value="#e2e4e8"></div><div class="srow" id="mlRow" hidden><label for="mloc">Location</label><select id="mloc"></select></div><div class="srow" id="mtRow" hidden><label for="mlab">Counter label</label><input type="text" class="tx" id="mlab" maxlength="40" placeholder="Auto"></div><div class="srow" id="mkRow" hidden><label for="mcol">Bubble colors</label><select id="mcol"><option value="tiers">Size tiers</option><option value="heat">Heat gradient</option></select></div><div class="srow" id="mbRow" hidden><label for="mtrk">Timeline bar</label><input type="checkbox" id="mtrk" style="width:18px;height:18px;accent-color:#3a4668"></div><div class="srow" id="myRow" hidden><label for="myt">Year label</label><input type="text" class="tx" id="myt" maxlength="20" placeholder="Auto"></div><div class="srow" id="miRow" hidden><label for="mico">Icon</label><select id="mico"><option value="auto">Auto (from data)</option><option value="mosque">Mosque</option><option value="student">Student</option><option value="people">Population</option><option value="health">Health</option><option value="housing">Housing</option><option value="vehicle">Vehicle</option><option value="business">Business</option><option value="generic">Chart</option><option value="none">No icon</option></select></div><div class="srow" id="tnRow" hidden><label for="topn">Show top</label><input type="range" id="topn" min="2" max="15" step="1" value="10"><output id="topnO">10</output></div><div class="srow" id="yrRow" hidden><label for="yr">Year shown</label><select id="yr"></select></div><div class="srow" id="psRow" hidden><label for="ps">Series shown</label><select id="ps"></select></div>'+
+  '<h3>Graph</h3><div class="srow" id="tvRow" hidden><span>Timeline view</span>'+seg('tlMode',[['bar','Bar race'],['line','Line']])+'</div><div class="srow" id="hlRow" hidden><label for="hl">Highlight item</label><select id="hl"></select></div><div class="srow" id="flRow" hidden><label for="flags">Show flags</label><input type="checkbox" id="flags" checked style="width:18px;height:18px;accent-color:#3a4668"><span id="flN" style="flex:1 1 auto;font-size:13px;color:var(--soft)"></span></div><div class="srow" id="mcRow" hidden><label for="mapc">Map color</label><input type="color" class="sw2" id="mapc" value="#e2e4e8"></div><div class="srow" id="mlRow" hidden><label for="mloc">Location</label><select id="mloc"></select></div><div class="srow" id="mtRow" hidden><label for="mlab">Counter label</label><input type="text" class="tx" id="mlab" maxlength="40" placeholder="Auto"></div><div class="srow" id="mkRow" hidden><label for="mcol">Bubble colors</label><select id="mcol"><option value="tiers">Size tiers</option><option value="heat">Heat gradient</option></select></div><div class="srow" id="mbRow" hidden><label for="mtrk">Timeline bar</label><input type="checkbox" id="mtrk" style="width:18px;height:18px;accent-color:#3a4668"></div><div class="srow" id="myRow" hidden><label for="myt">Year label</label><input type="text" class="tx" id="myt" maxlength="20" placeholder="Auto"></div><div class="srow" id="miRow" hidden><label for="mico">Icon</label><select id="mico"><option value="auto">Auto (from data)</option><option value="mosque">Mosque</option><option value="student">Student</option><option value="people">Population</option><option value="health">Health</option><option value="housing">Housing</option><option value="vehicle">Vehicle</option><option value="business">Business</option><option value="generic">Chart</option><option value="none">No icon</option></select></div><div class="srow" id="tnRow" hidden><label for="topn">Show top</label><input type="range" id="topn" min="2" max="15" step="1" value="10"><output id="topnO">10</output></div><div class="srow" id="yrRow" hidden><label for="yr">Year shown</label><select id="yr"></select></div><div class="srow" id="psRow" hidden><label for="ps">Series shown</label><select id="ps"></select></div>'+
   '<div class="srow"><span>Background</span>'+seg('bgMode',[['solid','Solid'],['gradient','Gradient']])+'<input type="color" class="sw2" id="bg1" value="#eceef1" aria-label="Background color 1"><input type="color" class="sw2" id="bg2" value="#c9d0d6" aria-label="Background color 2"></div>'+
   '<div class="srow stk"><span id="palL">Color palette</span><div class="dd2"><button type="button" id="palB" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="palL palB"></button><ul id="palU" role="listbox" aria-labelledby="palL" hidden></ul></div></div><div class="srow"><span>Data labels</span>'+seg('labels',[['none','None'],['values','Values'],['callouts','Callouts']])+'</div><div class="srow stk" id="nRow" hidden><span>Callout notes</span><div id="notes"></div></div>'+
   '<h3>Type</h3><div class="srow"><label for="fs">Graph text size</label><input type="range" id="fs" min="0.7" max="1.5" step="0.1" value="1"><output id="fsO">100%</output></div><div class="srow"><label for="cm">Main title color</label><input type="color" class="sw2" id="cm" value="#3b8fa8"></div><div class="srow"><label for="cs2">Sub title color</label><input type="color" class="sw2" id="cs2" value="#3f3f3f"></div><div class="srow"><label for="src">Source line</label><input type="text" id="src" class="tx" maxlength="140"></div>';
@@ -1058,5 +1130,12 @@ $('#exGo').onclick=async function(){
 exSync();
 document.querySelector('[data-sample="std"]').click();
 </script>
+<script>(function(){var r=document.documentElement,b=document.getElementById('themeBtn'),x=document.getElementById('themeTx'),K='uaeviz-theme',saved=false;
+try{var v=localStorage.getItem(K);saved=(v==='dark'||v==='light');}catch(e){}
+function apply(t){r.setAttribute('data-theme',t);if(x)x.textContent=t==='dark'?'Dark':'Light';if(b)b.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');}
+apply(r.getAttribute('data-theme')||'light');
+if(b)b.addEventListener('click',function(){var t=r.getAttribute('data-theme')==='dark'?'light':'dark';apply(t);saved=true;try{localStorage.setItem(K,t);}catch(e){}});
+if(window.matchMedia){var mq=matchMedia('(prefers-color-scheme: dark)'),f=function(e){if(!saved)apply(e.matches?'dark':'light');};if(mq.addEventListener)mq.addEventListener('change',f);}
+})();</script>
 </body>
 </html>
