@@ -198,7 +198,8 @@ output,.pkn,.fitn,.xn{color:var(--soft)}
 .rsep{width:26px;height:1px;background:rgba(255,255,255,.14);margin:2px 0}
 .rb.tg[aria-pressed=true]{color:#fff;background:rgba(35,136,219,.35)}
 .app{transition:grid-template-columns .3s var(--ease)}
-.app.nosd{grid-template-columns:72px minmax(0,1fr)}.app.nosd .side{display:none}
+.side{transition:opacity .25s,padding .3s var(--ease),margin .3s var(--ease)}
+.app.nosd{grid-template-columns:72px 0 minmax(0,1fr)}.app.nosd .side{opacity:0;padding:0;margin-inline-start:-14px;overflow:hidden;pointer-events:none;visibility:hidden;transition:opacity .2s,padding .3s var(--ease),margin .3s var(--ease),visibility 0s .3s}
 .app.noset .work{grid-template-columns:minmax(0,1fr)}.app.noset .set{display:none}
 @media(max-width:1100px){#tgSide{display:none}}
 @media(max-width:900px){.rsep{display:none}}
@@ -1251,7 +1252,7 @@ function dt(){try{return new Intl.DateTimeFormat('en-GB',{weekday:'long',day:'nu
 window.showView=function(v){
   if(v!=='data'&&!ok())v='data';cur=v;app.dataset.view=v;
   ORDER.forEach(function(k){var e=document.getElementById(V[k][0]);e.hidden=k!==v;});
-  document.querySelectorAll('[data-go]').forEach(function(b){if(b.dataset.go===v)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+  document.querySelectorAll('[data-go]').forEach(function(b){if(b.dataset.go===v)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');if(b.classList.contains('rb'))b.title=b.getAttribute('aria-label')+(b.dataset.go===v?' — click again to collapse / expand the sidebar':'');});
   document.getElementById('crumb').textContent=V[v][1];document.getElementById('vTitle').textContent=V[v][1];document.getElementById('vSub').textContent=dt()+' · '+V[v][2];
   var i=ORDER.indexOf(v),bb=document.getElementById('btnBack'),bn=document.getElementById('btnNext');
   document.getElementById('tgSet').hidden=v!=='viz';
@@ -1268,12 +1269,12 @@ function shell(){
   var f=document.getElementById('sbFile'),k=document.getElementById('sbKind'),c=document.getElementById('sbChart');
   try{f.textContent=(ST&&ST.name)||'None yet';var r=ST&&ST.result;k.textContent=r?(r.ok?(r.status==='fix'?'Ready (auto-fixed)':'Ready'):'Needs fixing'):'—';var dd=good?CD():null;c.textContent=dd?TN[C.type]+(C.mark&&C.mark!=='bar'&&/^(column|hbar|timeline)$/.test(C.type)?' · '+(C.mark==='circle'?'circles':'squares'):''):'—';}catch(e){}
 }
-document.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b&&!b.disabled)showView(b.dataset.go);});
+document.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(!b||b.disabled)return;if(b.classList.contains('rb')&&b.dataset.go===cur&&window.__t_nosd){window.__t_nosd();return;}showView(b.dataset.go);});
 document.getElementById('btnNext').addEventListener('click',function(){showView(ORDER[ORDER.indexOf(cur)+1]);});
 document.getElementById('btnBack').addEventListener('click',function(){showView(ORDER[ORDER.indexOf(cur)-1]);});
 var _s=window.sync;if(typeof _s==='function'){window.sync=function(){var r=_s.apply(this,arguments);shell();return r;};}
 var _o=window.onData;if(typeof _o==='function'){window.onData=function(){var r=_o.apply(this,arguments);var g=ok();shell();if(g&&cur==='data'&&!window.__adv){window.__adv=1;}return r;};}
-function tog(id,cls,key,lbl){var b=document.getElementById(id);function set(on,save){app.classList.toggle(cls,on);b.setAttribute('aria-pressed',String(on));b.setAttribute('aria-label',(on?'Expand ':'Collapse ')+lbl);if(save){try{localStorage.setItem(key,on?'1':'0');}catch(e){}}if(cls==='noset'||cls==='nosd'){try{window.dispatchEvent(new Event('resize'));}catch(e){}}}
+function tog(id,cls,key,lbl){var b=document.getElementById(id);window['__t_'+cls]=function(){set(!app.classList.contains(cls),true);};function set(on,save){app.classList.toggle(cls,on);b.setAttribute('aria-pressed',String(on));b.setAttribute('aria-label',(on?'Expand ':'Collapse ')+lbl);if(save){try{localStorage.setItem(key,on?'1':'0');}catch(e){}}if(cls==='noset'||cls==='nosd'){try{window.dispatchEvent(new Event('resize'));}catch(e){}}}
   var v=null;try{v=localStorage.getItem(key);}catch(e){}set(v==='1',false);b.addEventListener('click',function(){set(!app.classList.contains(cls),true);});}
 tog('tgSide','nosd','uaeviz-nosd','sidebar');tog('tgSet','noset','uaeviz-noset','settings panel');
 showView('data');
