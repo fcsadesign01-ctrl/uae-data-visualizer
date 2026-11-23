@@ -223,7 +223,7 @@ output,.pkn,.fitn,.xn{color:var(--soft)}
   <div class="stat"><span>File</span><b id="sbFile">None yet</b></div>
   <div class="stat"><span>Layout</span><b id="sbKind">—</b></div>
   <div class="stat"><span>Chart</span><b id="sbChart">—</b></div>
-  <div class="sfoot">UAE Data Visualizer · Beta v0.6 · build 2026-11-22<br>Federal Competitiveness &amp; Statistics Centre<br>Your files stay in your browser.<br>Flags: flag-icons (MIT) · <a id="fbk" href="#" hidden>Send feedback</a></div>
+  <div class="sfoot">UAE Data Visualizer · Beta v0.6.1 · build 2026-11-23<br>Federal Competitiveness &amp; Statistics Centre<br>Your files stay in your browser.<br>Flags: flag-icons (MIT) · <a id="fbk" href="#" hidden>Send feedback</a></div>
 </aside>
 <main class="main">
   <header class="mh">
@@ -862,10 +862,19 @@ function build(C,d,t){
     function arc(r,s){return 'M'+P2(r,a0)+'A'+r.toFixed(1)+' '+r.toFixed(1)+' 0 '+(s>Math.PI?1:0)+' 1 '+P2(r,a0+s);}
     it.forEach(function(x,i){
       var rc=R0-th/2-i*(th+gp),col=P[i%8],q=eo(cl((t-i*.07)/.6)),s2=sw*x.v/mx*q;
-      g+='<path d="'+arc(rc,sw)+'" fill="none" stroke="'+grid+'" stroke-width="'+th.toFixed(1)+'" stroke-linecap="round"/>';
-      if(s2>.02){if(is3)sh3+='<path d="'+arc(rc,s2)+'" transform="translate(5 9)" fill="none" stroke="#000" stroke-width="'+th.toFixed(1)+'" stroke-linecap="round" opacity=".13"/>';
-        g+='<path d="'+arc(rc,s2)+'" fill="none" stroke="'+col+'" stroke-width="'+th.toFixed(1)+'" stroke-linecap="round"/>';
-        if(is3)g+='<path d="'+arc(rc+th*.22,s2)+'" fill="none" stroke="#fff" stroke-width="'+(th*.14).toFixed(1)+'" stroke-linecap="round" opacity=".28"/>';}
+      var mk=C.mark,rcap=mk==='bar'?'butt':'round',tw=th,da='',ta='',op=1;
+      if(mk==='circle'){tw=th*.72;da=' stroke-dasharray="0.01 '+(th*.98).toFixed(1)+'"';}
+      else if(mk==='square'){tw=th*.8;da=' stroke-dasharray="'+(th*.8).toFixed(1)+' '+(th*.24).toFixed(1)+'"';rcap='butt';}
+      else if(mk==='lolli'){tw=Math.max(3,th*.2);}
+      else if(mk==='glass'){op=.62;}
+      ta=da;
+      g+='<path d="'+arc(rc,sw)+'" fill="none" stroke="'+grid+'" stroke-width="'+(mk==='lolli'?tw:tw).toFixed(1)+'" stroke-linecap="'+(mk==='circle'?'round':rcap)+'"'+ta+'/>';
+      if(s2>.02){
+        if(is3&&mk!=='lolli')sh3+='<path d="'+arc(rc,s2)+'" transform="translate(5 9)" fill="none" stroke="#000" stroke-width="'+tw.toFixed(1)+'" stroke-linecap="'+(mk==='circle'?'round':rcap)+'"'+da+' opacity=".13"/>';
+        g+='<path d="'+arc(rc,s2)+'" fill="none" stroke="'+col+'" stroke-width="'+tw.toFixed(1)+'" stroke-linecap="'+(mk==='circle'?'round':rcap)+'"'+da+(op<1?' opacity="'+op+'"':'')+'/>';
+        if(mk==='glass')g+='<path d="'+arc(rc,s2)+'" fill="none" stroke="'+col+'" stroke-width="1.6" stroke-linecap="round" opacity=".9" transform="translate(0 0)"/>'+'<path d="'+arc(rc+th*.2,s2)+'" fill="none" stroke="#fff" stroke-width="'+(th*.16).toFixed(1)+'" stroke-linecap="round" opacity=".35"/>';
+        else if(mk==='lolli'){var ea=a0+s2,ex=cx+rc*Math.cos(ea),ey=cy+rc*Math.sin(ea);g+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="'+(th*.5).toFixed(1)+'" fill="'+col+'"/><circle cx="'+(ex-th*.14).toFixed(1)+'" cy="'+(ey-th*.14).toFixed(1)+'" r="'+(th*.16).toFixed(1)+'" fill="#fff" opacity=".4"/>';}
+        else if(is3&&mk==='bar'||is3&&mk==='pill')g+='<path d="'+arc(rc+th*.22,s2)+'" fill="none" stroke="#fff" stroke-width="'+(th*.14).toFixed(1)+'" stroke-linecap="round" opacity=".28"/>';}
       var sz=Math.max(12,Math.min(21,th/fs*.62)),lx=cx-th/2-14,lab=C.labels==='none'?x.l:x.l+'   '+fv(x.v,f);
       txt+=T(lx,cy-rc+sz*fs*.34,lab,sz,400,ink,'r',null,0,lx-box.x);
     });
@@ -903,7 +912,7 @@ function build(C,d,t){
     }
     var gw=sl2*.72,bt=gw/ns,gap=Math.min(6,bt*.12),ord=[];for(i=0;i<n;i++)ord.push(i);if(hz)ord.reverse();
     ord.forEach(function(i){var p=eo(cl((t-(i/n)*.45)/.55));if(p<=0)return;
-      d.series.forEach(function(s,k){var v=s.values[i],a=vp(0),fxp=C.fx&&C.fx!=='grow',b=vp(v*(fxp?1:p)),lo=Math.min(a,b),hi=Math.max(a,b),off=-gw/2+k*bt+gap/2,th=bt-gap,c=P[k%8];
+      d.series.forEach(function(s,k){var v=s.values[i],a=vp(0),fxp=C.fx&&C.fx!=='grow'&&(C.mark==='circle'||C.mark==='square'||cl((t-(i/n)*.45)/.55)<1),b=vp(v*(fxp?1:p)),lo=Math.min(a,b),hi=Math.max(a,b),off=-gw/2+k*bt+gap/2,th=bt-gap,c=P[k%8];
         var rx=hz?lo:cc(i)+off,ry=hz?cc(i)+off:lo,rw=hz?hi-lo:th,rh=hz?th:hi-lo;
         o.push(fxp?pbar(rx,ry,rw,rh,c,hz,v<0,dd,cl((t-(i/n)*.45)/.55),i*37+k*11+1):bar3(rx,ry,rw,rh,c,dd,hz,v<0));
         if(C.labels!=='none'&&p>.9&&(hz?th>=20:th>=30)){var tx=fv(v,f),mo=fxp?9:markOff(th);o.push(hz?T(rx+rw+8+mo+(is3?dd*.9:0),ry+rh/2+6-(is3?dd*.27:0),tx,17,400,ink,'l',(p-.9)*10):T(rx+rw/2+(is3?dd*.45:0),ry-9-mo-(is3?dd*.55:0),tx,17,400,ink,'m',(p-.9)*10));}
@@ -1195,7 +1204,7 @@ function sync(){
   var e=$('#hint');e.textContent=HINT||('Suggested for your data: '+TN[sg]+(d.tl?' (multi-year data detected)':''));
   document.querySelectorAll('#set .seg').forEach(function(s){var k=s.dataset.k;s.querySelectorAll('button').forEach(function(b){var cur=k==='anim'?(C.type==='timeline'?'timeline':'standard'):C[k];b.setAttribute('aria-checked',String(String(cur)===b.dataset.v));if(k==='labels'&&b.dataset.v==='callouts'){b.disabled=C.type!=='pie';b.title=b.disabled?'Callouts are for pie charts':'';}if(k==='anim'&&b.dataset.v==='timeline'){b.disabled=!d.tl;b.title=d.tl?'':'Needs years or dates in the data';}});});
   $('#palB').innerHTML='<span class="strip">'+strip(C.pal)+'</span><span class="nm2">'+PN[C.pal]+'</span><span aria-hidden="true">▾</span>';document.querySelectorAll('#palU li').forEach(function(li){li.setAttribute('aria-selected',String(+li.dataset.p===C.pal));});
-  $('#bg2').hidden=C.bgMode==='solid';$('#fxRow').hidden=!(C.type==='column'||C.type==='hbar');$('#mrRow').hidden=!(C.type==='column'||C.type==='hbar'||(C.type==='timeline'&&C.tlMode!=='line'));
+  $('#bg2').hidden=C.bgMode==='solid';$('#fxRow').hidden=!(C.type==='column'||C.type==='hbar');$('#mrRow').hidden=!(C.type==='column'||C.type==='hbar'||C.type==='ring'||(C.type==='timeline'&&C.tlMode!=='line'));
   var isT=C.type==='timeline'&&d.tl;var isM=C.type==='map';$('#yrRow').hidden=!d.tl||isT||isM;$('#tvRow').hidden=!isT;$('#hlRow').hidden=!isT;$('#flRow').hidden=!isT;$('#tnRow').hidden=!isT;
   if(isT){var en=d.tld.ents;$('#hl').innerHTML='<option value="-1">None</option>'+en.map(function(x,i){return '<option value="'+i+'"'+(i===C.hl?' selected':'')+'>'+esc(x)+'</option>';}).join('');var tn=$('#topn');tn.max=en.length;tn.min=Math.min(3,en.length);C.topN=Math.max(+tn.min,Math.min(C.topN,en.length));tn.value=C.topN;$('#topnO').textContent=C.topN;var fc=d.tld.flags,miss=d.tld.ents.filter(function(x,i){return !fc[i];}),okc=fc.length-miss.length;$('#flags').disabled=!okc;$('#flags').checked=C.flags!==false&&okc>0;$('#flN').textContent=okc?(okc+' of '+fc.length+' matched'+(miss.length&&miss.length<=4?' · no flag for '+miss.join(', '):'')):'No country names recognised';}
   if(d.tl){$('#yr').innerHTML=d.years.map(function(y,i){return '<option value="'+i+'"'+(i===d.yi?' selected':'')+'>'+y+'</option>';}).join('');}
