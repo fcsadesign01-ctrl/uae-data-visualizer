@@ -209,6 +209,11 @@ output,.pkn,.fitn,.xn{color:var(--soft)}
 .set .srow>span,.set .srow>label{color:var(--soft)}
 .set output{color:var(--mut)}
 :root{--blue:#1f7fd1}:root[data-theme=dark]{--blue:#4aa3f0}
+
+/* Staggered screen entrance */
+@keyframes scrIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.stg{animation:scrIn .5s cubic-bezier(.22,.8,.3,1) backwards;animation-delay:calc(var(--i,0)*60ms)}
+@media (prefers-reduced-motion:reduce){.stg{animation:none}}
 </style>
 <script>(function(){var r=document.documentElement,t=null;try{t=localStorage.getItem('uaeviz-theme');}catch(e){}if(t!=='dark'&&t!=='light')t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';r.setAttribute('data-theme',t);})();</script>
 </head>
@@ -223,7 +228,7 @@ output,.pkn,.fitn,.xn{color:var(--soft)}
   <div class="stat"><span>File</span><b id="sbFile">None yet</b></div>
   <div class="stat"><span>Layout</span><b id="sbKind">—</b></div>
   <div class="stat"><span>Chart</span><b id="sbChart">—</b></div>
-  <div class="sfoot">UAE Data Visualizer · Beta v0.6.1 · build 2026-11-23<br>Federal Competitiveness &amp; Statistics Centre<br>Your files stay in your browser.<br>Flags: flag-icons (MIT) · <a id="fbk" href="#" hidden>Send feedback</a></div>
+  <div class="sfoot">UAE Data Visualizer · Beta v0.7 · build 2026-11-25<br>Federal Competitiveness &amp; Statistics Centre<br>Your files stay in your browser.<br>Flags: flag-icons (MIT) · <a id="fbk" href="#" hidden>Send feedback</a></div>
 </aside>
 <main class="main">
   <header class="mh">
@@ -1338,6 +1343,14 @@ if(window.matchMedia){var mq=matchMedia('(prefers-color-scheme: dark)'),f=functi
 var app=document.getElementById('app'),V={data:['vData','Data','Upload a file and check what the tool detects.'],viz:['chartSec','Visualize','Pick a chart, then style it.'],exp:['exportSec','Export','Choose formats and download.']},ORDER=['data','viz','exp'],cur='data';
 function ok(){try{return !!(ST&&ST.result&&ST.result.ok);}catch(e){return false;}}
 function dt(){try{return new Intl.DateTimeFormat('en-GB',{weekday:'long',day:'numeric',month:'long'}).format(new Date());}catch(e){return '';}}
+
+function enter(v){
+  var sel={data:['.mh','#vData .card'],viz:['.mh','#chartSec .tcard','#chartSec .set','#chartSec .prev'],exp:['.mh','#exportSec .xrow']};
+  var els=[];(sel[v]||['.mh']).forEach(function(q){document.querySelectorAll(q).forEach(function(e){if(e.offsetParent!==null||q==='.mh')els.push(e);});});
+  els.forEach(function(e){e.classList.remove('stg');});void document.body.offsetWidth;
+  els.forEach(function(e,n){e.style.setProperty('--i',Math.min(n,8));e.classList.add('stg');});
+}
+window.enter=enter;
 window.showView=function(v){
   if(v!=='data'&&!ok())v='data';cur=v;app.dataset.view=v;
   ORDER.forEach(function(k){var e=document.getElementById(V[k][0]);e.hidden=k!==v;});
@@ -1347,7 +1360,7 @@ window.showView=function(v){
   bb.hidden=i===0;bn.hidden=i===ORDER.length-1;if(i<ORDER.length-1)bn.textContent='Next: '+V[ORDER[i+1]][1]+' →';
   shell();
   if(v==='viz'){try{sync();paint();}catch(e){}}
-  window.scrollTo({top:0});
+  window.scrollTo({top:0});enter(v);
 };
 function shell(){
   var good=ok();
